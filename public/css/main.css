@@ -1,0 +1,14 @@
+* {
+  font-family: helvetica;
+}
+body {
+  background-color: #dc8989;
+}
+body .body-wrapper {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 30px;
+}
+h1 {
+  color: #efefef;
+}
