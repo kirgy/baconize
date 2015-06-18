@@ -23,3 +23,5 @@ Route::get(	'/create', 	'PagesController@create');
 Route::post('/create', 	'PagesController@create');
 Route::post('/manage', 	'PagesController@manage');
 
+Route::get('/view/{baconName}', 	'PagesController@view');
+
