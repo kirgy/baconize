@@ -32,7 +32,7 @@
 	<div class="bacon-form">
 		{!! Form::open(['action' => 'PagesController@create']) !!}
 			{!! Form::label('url', 'URL:') !!}
-			{!! Form::text('url', null, ['class' => 'input']) !!}
+			{!! Form::text('url', $submitted_url , ['class' => 'input']) !!}
 			{!! Form::submit('Bacon my URL!') !!}
 		{!! Form::close() !!}
 	</div>

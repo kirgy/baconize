@@ -25,3 +25,5 @@ Route::post('/manage', 	'PagesController@manage');
 
 Route::get('/view/{baconName}', 	'PagesController@view');
 
+// Catch all for public URLs
+Route::get('{baconName}',			'PagesController@view');
