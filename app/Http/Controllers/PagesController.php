@@ -38,9 +38,28 @@ class PagesController extends Controller
 		if(!is_null($sURL)) {
 			$sBaconNumber   = $oBaconizer->getBaconNumber();
 			$sBaconName     = $oBaconizer->getBaconName($sBaconNumber);
-			
-			if(!filter_var($sURL, FILTER_VALIDATE_URL)){
-				// show error
+
+			if(substr($sURL, 0, strlen('http://')) !='http://' || substr($sURL, 0, strlen('https://'))  !='https://' ) {
+				$sURL = 'http://' . $sURL;
+			}
+
+			// URL validation taken from Drupal's URL validator ref: https://api.drupal.org/api/drupal/includes%21common.inc/function/valid_url/7
+			if( ! (bool) preg_match("
+		      /^                                                      # Start at the beginning of the text
+		      (?:ftp|https?|feed):\/\/                                # Look for ftp, http, https or feed schemes
+		      (?:                                                     # Userinfo (optional) which is typically
+		        (?:(?:[\w\.\-\+!$&'\(\)*\+,;=]|%[0-9a-f]{2})+:)*      # a username or a username and password
+		        (?:[\w\.\-\+%!$&'\(\)*\+,;=]|%[0-9a-f]{2})+@          # combination
+		      )?
+		      (?:
+		        (?:[a-z0-9\-\.]|%[0-9a-f]{2})+                        # A domain name or a IPv4 address
+		        |(?:\[(?:[0-9a-f]{0,4}:)*(?:[0-9a-f]{0,4})\])         # or a well formed IPv6 address
+		      )
+		      (?::[0-9]+)?                                            # Server port number (optional)
+		      (?:[\/|\?]
+		        (?:[\w#!:\.\?\+=&@$'~*,;\/\(\)\[\]\-]|%[0-9a-f]{2})   # The path and query (optional)
+		      *)?
+		    $/xi", $sURL) ) {
 				$this->aErrors['invalid-url'] = 'For bacon sake...the URL you provided isnt valid. Do you want a tasty URL or not?';
 			} else {
 				DB::table('sites')->insert(

@@ -25,7 +25,7 @@
 			Your URL has just become a heck more tasty!
 		</p>
 		<p>
-			<a href="{{{ $baconURL }}}/view/{{{ $baconName }}}">{{{ $baconURL }}}/view/{{{ $baconName }}}</a>
+			<a href="{{{ $baconURL }}}/{{{ $baconName }}}">{{{ $baconURL }}}/{{{ $baconName }}}</a>
 		</p>
 	@endif
 
