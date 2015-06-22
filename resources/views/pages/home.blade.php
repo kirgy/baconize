@@ -6,6 +6,9 @@ Homepage
 
 @section('content')
 	<p>
-		This is the main content for the homepage!
+		URLs are lacking bacon. Baconize them now.
 	</p>
+	<a href="/create" class="btn btn-link">
+		>> Baconize my urls brah!
+	</a>
 @stop
