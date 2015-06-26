@@ -36,53 +36,61 @@ class PagesController extends Controller
 
 		$sURL = Input::get('url', null);
 		if(!is_null($sURL)) {
-			$sBaconNumber   = $oBaconizer->getBaconNumber();
-			$sBaconName     = $oBaconizer->getBaconName($sBaconNumber);
+			// validate URL
+			$sRawURL 	= $sURL;
+			$aParsedURL = parse_url($sURL);
 
-			if(substr($sURL, 0, strlen('http://')) !='http://' || substr($sURL, 0, strlen('https://'))  !='https://' ) {
+			if($aParsedURL != false && !isset($aParsedURL['scheme'])) {
 				$sURL = 'http://' . $sURL;
+				$aParsedURL = parse_url($sURL);
 			}
 
-			// URL validation taken from Drupal's URL validator ref: https://api.drupal.org/api/drupal/includes%21common.inc/function/valid_url/7
-			if( ! (bool) preg_match("
-		      /^                                                      # Start at the beginning of the text
-		      (?:ftp|https?|feed):\/\/                                # Look for ftp, http, https or feed schemes
-		      (?:                                                     # Userinfo (optional) which is typically
-		        (?:(?:[\w\.\-\+!$&'\(\)*\+,;=]|%[0-9a-f]{2})+:)*      # a username or a username and password
-		        (?:[\w\.\-\+%!$&'\(\)*\+,;=]|%[0-9a-f]{2})+@          # combination
-		      )?
-		      (?:
-		        (?:[a-z0-9\-\.]|%[0-9a-f]{2})+                        # A domain name or a IPv4 address
-		        |(?:\[(?:[0-9a-f]{0,4}:)*(?:[0-9a-f]{0,4})\])         # or a well formed IPv6 address
-		      )
-		      (?::[0-9]+)?                                            # Server port number (optional)
-		      (?:[\/|\?]
-		        (?:[\w#!:\.\?\+=&@$'~*,;\/\(\)\[\]\-]|%[0-9a-f]{2})   # The path and query (optional)
-		      *)?
-		    $/xi", $sURL) ) {
-				$this->aErrors['invalid-url'] = 'For bacon sake...the URL you provided isnt valid. Do you want a tasty URL or not?';
+			if( $aParsedURL == false || !isset($aParsedURL['host']) ) {
+				$this->aErrors[] = 'That URL is not valid dude. In order to supply you with a baconized beauty, you need a valid URL man!';
 			} else {
-				DB::table('sites')->insert(
-					[
-					'raw_url'    	=> $sURL,
-					'san_url'    	=> $sURL,
-					'bacon_number'  => $sBaconNumber,
-					'bacon_code' 	=> $sBaconName,
-					'view_count' 	=> 0,
-					'creator_ip'	=> $sIP,
-					'created_at'	=> date('Y-m-d H:i:s'),
-					'updated_at'	=> date('Y-m-d H:i:s'),
-					]
-				);    		
+				if(!preg_match('/^[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+$/', $aParsedURL['host'])) {
+					$this->aErrors[] = 'That URL is not valid dude. In order to supply you with a baconized beauty, you need a valid URL man!';
+				} else {
+					if(!isset($aParsedURL['scheme'])) {
+						// array_unshift($aParsedURL, 'http://');
+						$sURL = 'http://' . $sURL;
+					}
+					$oExistingSite = DB::table('sites')->select('*')->where('san_url', '=', $sURL)->take(1)->first();
 
-				$aData = array(
-					'url' 	      	=> $sURL, 
-					'baconNumber'   => $sBaconNumber, 
-					'baconName'     => $sBaconName, 
-					'baconURL'   	=> App::make('url')->to('/'),
-				);
+					if($oExistingSite) {
+						// url has already been created, retrieve it
+						$sURL 			= $oExistingSite->san_url;
+						$sBaconNumber 	= $oExistingSite->bacon_number;
+						$sBaconName 	= $oExistingSite->bacon_code;
+					} else {
+						// url has never been created before, create it
+						$sBaconNumber   = $oBaconizer->getBaconNumber();
+						$sBaconName     = $oBaconizer->getBaconName($sBaconNumber);
+
+						DB::table('sites')->insert(
+							[
+								'raw_url'    	=> $sRawURL,
+								'san_url'    	=> $sURL,
+								'bacon_number'  => $sBaconNumber,
+								'bacon_code' 	=> $sBaconName,
+								'view_count' 	=> 0,
+								'creator_ip'	=> $sIP,
+								'created_at'	=> date('Y-m-d H:i:s'),
+								'updated_at'	=> date('Y-m-d H:i:s'),
+							]
+						);    		
+					}
+
+					$aData = array(
+						'url' 	      	=> $sURL, 
+						'baconNumber'   => $sBaconNumber, 
+						'baconName'     => $sBaconName, 
+						'baconURL'   	=> App::make('url')->to('/'),
+					);
+				}				
 			}
 		}
+
 		if(count($this->aErrors)) {
 			$aData['errors']        = $this->aErrors;
 		}
@@ -99,12 +107,9 @@ class PagesController extends Controller
 		if($mURL) {
 			$sURL 	= $mURL;
 			$oView 	= redirect()->away($sURL);
-			// $oView 	= "Heres your url brah: {$sURL}";
 		} else {
 			$oView = view('pages.error_baconnotfound', array(
-				//@todo return old bacon url below
-				'url' 		=> 'Return the old bacon url here...',
-				// 'baconCode'	=> $sBaconNumber,
+				'url' 		=> $sBaconNumber,
 			));
 		}
 		

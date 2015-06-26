@@ -5,13 +5,14 @@
 @stop
 
 @section('content')
+<article>
 
-	<h2>
+	{{--<h2>
 		posted: {{{ $url or 'None set'}}}
-	</h2>
+	</h2>--}}
 
 	@if(isset($errors))
-		<div class="errors">
+		<div class="message message-error">
 		@foreach ($errors as $error)
 			<p>
 				{{{ $error }}}
@@ -21,7 +22,7 @@
 	@endif
 
 	@if(isset($baconURL))
-		<p>
+		<p class="message message-success">
 			Your URL has just become a heck more tasty!
 		</p>
 		<p>
@@ -36,4 +37,5 @@
 			{!! Form::submit('Bacon my URL!') !!}
 		{!! Form::close() !!}
 	</div>
+</article>
 @stop

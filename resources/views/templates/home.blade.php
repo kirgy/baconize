@@ -12,12 +12,16 @@
 	<link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
+<div class="body-container">
+	<header>
+		@include('parts.nav')
+		<h1>
+			@yield('title')
+		</h1>
+	</header>
+	@yield('content')
+	@include('parts.footer')
 
-<h1>
-	@yield('title')
-</h1>
-
-@yield('content')
-
+</div>
 </body>
 </html>

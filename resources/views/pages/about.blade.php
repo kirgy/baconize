@@ -5,7 +5,9 @@ About
 @stop
 
 @section('content')
+<article>
 	<p>
 		Some information about us...
 	</p>
+</article>
 @stop

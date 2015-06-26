@@ -56,7 +56,6 @@
 				$sBaconNumber .= $iThisNum;
 			}
 
-			// return $sBaconNumber;
 			$sBaconSite = DB::table('sites')->select('san_url')->where('bacon_number', '=', $sBaconNumber)->take(1)->first();
 
 			if(!is_object($sBaconSite)){

@@ -4,11 +4,31 @@
 body {
   background-color: #dc8989;
 }
-body .body-wrapper {
+h1 {
+  color: #efefef;
+}
+.body-container {
   margin: 0 auto;
   max-width: 900px;
   padding: 30px;
 }
-h1 {
-  color: #efefef;
+/* Navigation */nav {
+  align: left;
+}
+nav ul {
+  align: left;
+  margin: 0;
+  padding: 0;
+}
+nav ul li {
+  display: inline-block;
+}
+/* Messages */.message {
+  font-size: 1.2em;
+}
+.message-error {
+  color: #f55;
+}
+.message-success {
+  color: #fcc;
 }
