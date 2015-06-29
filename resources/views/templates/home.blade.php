@@ -18,6 +18,9 @@
 		<h1>
 			@yield('title')
 		</h1>
+		<div class="site-logo-wrapper">
+			<img src="/img/baconize-logo.png" class="site-logo" />
+		</div>
 	</header>
 	@yield('content')
 	@include('parts.footer')

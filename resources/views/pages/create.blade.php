@@ -1,7 +1,6 @@
 @extends('templates.home')
 
 @section('title')
-	Create
 @stop
 
 @section('content')
@@ -32,9 +31,9 @@
 
 	<div class="bacon-form">
 		{!! Form::open(['action' => 'PagesController@create']) !!}
-			{!! Form::label('url', 'URL:') !!}
-			{!! Form::text('url', $submitted_url , ['class' => 'input']) !!}
-			{!! Form::submit('Bacon my URL!') !!}
+			{{--!! Form::label('url', 'URL:') !!--}}
+			{!! Form::text('url', $submitted_url , ['class' => 'input bacon-url', 'placeholder' => 'www.example.com']) !!}
+			{!! Form::submit('Bacon my URL!', ['class' => 'submit bacon-submit']) !!}
 		{!! Form::close() !!}
 	</div>
 </article>

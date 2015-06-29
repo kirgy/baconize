@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 
-Route::get(	'/', 		'PagesController@home');
+Route::get(	'/', 		'PagesController@create');
 Route::get(	'/about', 	'PagesController@about');
 Route::get(	'/home', 	'PagesController@home');
 Route::get(	'/create', 	'PagesController@create');
