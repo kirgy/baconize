@@ -1,10 +1,10 @@
 <!DOCTYPE>
-<html lang="en">
+<html lang="en" itemscope itemtype="http://schema.org/Article">
 <head>
-	<meta charset="utf-8">	
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	@include('parts.meta')
+
 	<title>
-		Bacon URL
+		Baconize.it - making URLs tasty since 2015
 	</title>
 
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">

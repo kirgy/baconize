@@ -5,11 +5,7 @@
 
 @section('content')
 <article>
-
-	{{--<h2>
-		posted: {{{ $url or 'None set'}}}
-	</h2>--}}
-
+	
 	@if(isset($errors))
 		<div class="message message-error">
 		@foreach ($errors as $error)

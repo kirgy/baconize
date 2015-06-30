@@ -39,55 +39,47 @@ class PagesController extends Controller
 			// validate URL
 			$sRawURL 	= $sURL;
 			$aParsedURL = parse_url($sURL);
-
-			if($aParsedURL != false && !isset($aParsedURL['scheme'])) {
-				$sURL = 'http://' . $sURL;
-				$aParsedURL = parse_url($sURL);
+			if( (substr($sRawURL, 0, strlen('http://')) != 'http://') && (substr($sRawURL, 0, strlen('https://')) != 'https://') ) {
+				$sRawURL = 'http://' . $sRawURL;
 			}
-
-			if( $aParsedURL == false || !isset($aParsedURL['host']) ) {
+			if(!preg_match("/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/", $sRawURL)) {
 				$this->aErrors[] = 'That URL is not valid dude. In order to supply you with a baconized beauty, you need a valid URL man!';
 			} else {
-				if(!preg_match('/^[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+$/', $aParsedURL['host'])) {
-					$this->aErrors[] = 'That URL is not valid dude. In order to supply you with a baconized beauty, you need a valid URL man!';
+				if(!isset($aParsedURL['scheme'])) {
+					$sURL = 'http://' . $sURL;
+				}
+				$oExistingSite = DB::table('sites')->select('*')->where('san_url', '=', $sURL)->take(1)->first();
+
+				if($oExistingSite) {
+					// url has already been created, retrieve it
+					$sURL 			= $oExistingSite->san_url;
+					$sBaconNumber 	= $oExistingSite->bacon_number;
+					$sBaconName 	= $oExistingSite->bacon_code;
 				} else {
-					if(!isset($aParsedURL['scheme'])) {
-						// array_unshift($aParsedURL, 'http://');
-						$sURL = 'http://' . $sURL;
-					}
-					$oExistingSite = DB::table('sites')->select('*')->where('san_url', '=', $sURL)->take(1)->first();
+					// url has never been created before, create it
+					$sBaconNumber   = $oBaconizer->getBaconNumber();
+					$sBaconName     = $oBaconizer->getBaconName($sBaconNumber);
 
-					if($oExistingSite) {
-						// url has already been created, retrieve it
-						$sURL 			= $oExistingSite->san_url;
-						$sBaconNumber 	= $oExistingSite->bacon_number;
-						$sBaconName 	= $oExistingSite->bacon_code;
-					} else {
-						// url has never been created before, create it
-						$sBaconNumber   = $oBaconizer->getBaconNumber();
-						$sBaconName     = $oBaconizer->getBaconName($sBaconNumber);
+					DB::table('sites')->insert(
+						[
+							'raw_url'    	=> $sRawURL,
+							'san_url'    	=> $sURL,
+							'bacon_number'  => $sBaconNumber,
+							'bacon_code' 	=> $sBaconName,
+							'view_count' 	=> 0,
+							'creator_ip'	=> $sIP,
+							'created_at'	=> date('Y-m-d H:i:s'),
+							'updated_at'	=> date('Y-m-d H:i:s'),
+						]
+					);    		
+				}
 
-						DB::table('sites')->insert(
-							[
-								'raw_url'    	=> $sRawURL,
-								'san_url'    	=> $sURL,
-								'bacon_number'  => $sBaconNumber,
-								'bacon_code' 	=> $sBaconName,
-								'view_count' 	=> 0,
-								'creator_ip'	=> $sIP,
-								'created_at'	=> date('Y-m-d H:i:s'),
-								'updated_at'	=> date('Y-m-d H:i:s'),
-							]
-						);    		
-					}
-
-					$aData = array(
-						'url' 	      	=> $sURL, 
-						'baconNumber'   => $sBaconNumber, 
-						'baconName'     => $sBaconName, 
-						'baconURL'   	=> App::make('url')->to('/'),
-					);
-				}				
+				$aData = array(
+					'url' 	      	=> $sURL, 
+					'baconNumber'   => $sBaconNumber, 
+					'baconName'     => $sBaconName, 
+					'baconURL'   	=> App::make('url')->to('/'),
+				);
 			}
 		}
 
@@ -95,6 +87,7 @@ class PagesController extends Controller
 			$aData['errors']        = $this->aErrors;
 		}
 
+		$aData['site_url'] = App::make('url')->to('/');
 		$aData['submitted_url'] = Input::get('url', null);
 
 		return view('pages.create', $aData);
