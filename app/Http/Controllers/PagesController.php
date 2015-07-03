@@ -31,11 +31,21 @@ class PagesController extends Controller
 		if($request->ip()) {
 			$sIP = $request->ip();
 		} else {
-			if(isset($_SERVER['REMOTE_ADDR'])) {
-				$sIP = $_SERVER['REMOTE_ADDR'];
-			} else {
-				$sIP = null;
-			}
+			if (getenv('HTTP_CLIENT_IP')) {
+		        $sIP = getenv('HTTP_CLIENT_IP');
+		    } else if(getenv('HTTP_X_FORWARDED_FOR')) {
+		        $sIP = getenv('HTTP_X_FORWARDED_FOR');
+		    } else if(getenv('HTTP_X_FORWARDED')) {
+		        $sIP = getenv('HTTP_X_FORWARDED');
+		    } else if(getenv('HTTP_FORWARDED_FOR')) {
+		        $sIP = getenv('HTTP_FORWARDED_FOR');
+		    }elseif(getenv('HTTP_FORWARDED')) {
+		       $sIP = getenv('HTTP_FORWARDED');
+		    } elseif(getenv('REMOTE_ADDR')) {
+		        $sIP = getenv('REMOTE_ADDR');
+		    } else {
+		        $sIP = null;
+		    }
 		}
 
 		$bFlashEnabled = Input::get('flash_enabled', false);
