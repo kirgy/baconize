@@ -17,7 +17,7 @@
 			$('.bacon-url-copy').click(function() {
 				$('#global-zeroclipboard-html-bridge').remove();
 				clearTimeout(successBannerTimeout);
-				$('.message').text('Copied! Now your Baconized URL is on your clipboard...sexy.');
+				$('.message-container').text('Copied! Now your Baconized URL is on your clipboard...sexy.');
 				setTimeout(function(){
 					$('.message').animate({ height: 0, opacity: 0 }, 800);
 				}, 5000);
@@ -35,10 +35,12 @@
 
 	// Animations
 		$('.message').slideDown( 800, function() {
-				successBannerTimeout = setTimeout(function(){
-					$('.message').animate({ height: 0, opacity: 0 }, 800);
-				}, 5000);
+			successBannerTimeout = setTimeout(function(){
+				$('.message').animate({ height: 0, opacity: 0 }, 800);
+			}, 5000);
+			if(!isFlashEnabled()){
 				$("#bacon_url").select();
+			}
 		});
 
 	// helper functions

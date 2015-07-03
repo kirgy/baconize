@@ -14,22 +14,26 @@
 
 	@if(count($errors))
 		<div class="message message-error">
-		@foreach ($errors as $error)
-			<p>
-				{{{ $error }}}
-			</p>
-		@endforeach
+			<div class="message-container">
+				@foreach ($errors as $error)
+					<p>
+						{{{ $error }}}
+					</p>
+				@endforeach
+			</div>
 		</div>
 	@endif
 
 	@if(isset($baconURL))
-		<p class="message message-success" data-clipboard-text="{{{ $baconURL }}}/{{{ $baconName }}}">
-			@if($flash_enabled == 1)
-				Your URL has just become a heck more tasty! Tap anywhere to copy!
-			@else
-				Your URL has just become a heck more tasty! You can copy it below. Pretty sick bruh.
-			@endif
-		</p>
+		<div class="message message-success" data-clipboard-text="{{{ $baconURL }}}/{{{ $baconName }}}">
+			<div class="message-container">
+				@if($flash_enabled == 1)
+					Your URL has just become a heck more tasty! Tap anywhere to copy!
+				@else
+					Your URL has just become a heck more tasty! You can copy it below. Pretty sick bruh.
+				@endif
+			</div>
+		</div>
 		<div class="url-result">
 			<textarea id="bacon_url" class="bacon-url-copy generated_bacon_url" data-clipboard-text="{{{ $baconURL }}}/{{{ $baconName }}}">{{{ $baconURL }}}/{{{ $baconName }}}</textarea>
 			{{-- <a href="javascript:void(0);"  class="my_clip_button" title="test text" id="copy_button" data-clipboard-text="{{{ $baconURL }}}/{{{ $baconName }}}">{{{ $baconURL }}}/{{{ $baconName }}}</a> --}}

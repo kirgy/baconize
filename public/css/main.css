@@ -42,6 +42,7 @@ nav ul li {
 nav a {
   color: #d94885;
   padding: 0.5em 1em;
+  border-radius: 12px;
 }
 nav a:hover {
   -o-transition: 0.5s;
@@ -57,7 +58,14 @@ nav a:hover {
   font-size: 0.8em;
   text-align: justify;
 }
-/* Create Page */.url-result {
+/* Create Page */#bacon_url:hover {
+  background: #ff7355;
+  -o-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -webkit-transition: 0.5s;
+}
+.url-result {
   font-size: 0.9em;
   margin: 0 auto 2em auto;
   text-align: center;
@@ -153,31 +161,33 @@ nav a:hover {
   display: none;
   position: fixed;
   top: 0px;
-  width: 90%;
-  margin: 0 auto;
-  margin-left: -45%;
-  left: 50%;
-  padding: 0.8em 1em;
-  border-radius: 0 0 12px 12px;
+  left: 0px;
+  width: 100%;
+  padding: 0 1.7em;
   color: #fff;
   text-align: center;
   margin-bottom: 2em;
-  max-width: 900px;
 }
 .message p {
   font-size: 0.8em;
   padding: 0.5em;
   margin-bottom: 1em;
 }
-.message-error {
-  background: #f55;
+.message .message-container {
+  margin: 0 auto;
+  padding: 0.8em 1em;
+  max-width: 900px;
+  border-radius: 0 0 12px 12px;
 }
 .message-error p {
   color: #fff;
   margin: 0px;
   padding: 0px;
 }
-.message-success {
+.message-error .message-container {
+  background: #f55;
+}
+.message-success .message-container {
   background: #48d970;
 }
 .info {

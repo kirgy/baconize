@@ -22,7 +22,7 @@
 	<header>
 		@include('parts.nav')
 		<div class="site-logo-wrapper">
-			<img src="/img/baconize-logo.png" class="site-logo" />
+			<a href="/"><img src="/img/baconize-logo.png" class="site-logo" /></a>
 		</div>
 		<h1>
 			@yield('title')

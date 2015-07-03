@@ -66,6 +66,7 @@ nav {
 	a {
 		color: $primary;
 		padding: 0.5em 1em;
+		border-radius: $cta-radius;
 
 		&:hover {
 	        -o-transition:.5s;
@@ -91,7 +92,15 @@ footer {
 
 /* Create Page */
 
-
+#bacon_url {
+	&:hover {
+		background: $tertiary;
+		-o-transition:.5s;
+		-ms-transition:.5s;
+		-moz-transition:.5s;
+		-webkit-transition:.5s;				
+	}
+}
 
 .url-result {
 	font-size: 0.9em;
@@ -214,16 +223,19 @@ footer {
 	display: none;
 	position: fixed;
 	top: 0px;
-	width: 90%;
-	margin: 0 auto;
-	margin-left: -45%;
-	left: 50%;
-	padding: 0.8em 1em;	
-	border-radius: 0 0 $cta-radius $cta-radius;
+	left: 0px;
+	width: 100%;
+	padding: 0 1.7em;
 	color: $white;
 	text-align: center;
 	margin-bottom: 2em;
-	max-width: $max-page-width;
+
+	.message-container {
+		margin: 0 auto;
+		padding: 0.8em 1em;	
+		max-width: $max-page-width;
+		border-radius: 0 0 $cta-radius $cta-radius;
+	}
 }
 
 .message-error {
@@ -232,11 +244,16 @@ footer {
 		margin: 0px;
 		padding: 0px;
 	}
-	background: $red;
+
+	.message-container {
+		background: $red;
+	}
 }
 
 .message-success {
-	background: $green;
+	.message-container {
+		background: $green;
+	}
 }
 
 
