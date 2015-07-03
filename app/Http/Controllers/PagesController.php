@@ -19,7 +19,7 @@ class PagesController extends Controller
 	}
 
 	public function about() {
-		return view("pages.about", array('fname' => 'Chris', 'lname' => 'McKirgan'));
+		return view("pages.about", array('fname' => 'Chris', 'lname' => 'McKirgan', 'site_url' => App::make('url')->to('/')));
 	}
 
 	public function create() {
@@ -34,6 +34,7 @@ class PagesController extends Controller
 			$sIP = 'ip';
 		}
 
+		$bFlashEnabled = Input::get('flash_enabled', false);
 		$sURL = Input::get('url', null);
 		if(!is_null($sURL)) {
 			// validate URL
@@ -87,6 +88,7 @@ class PagesController extends Controller
 			$aData['errors']        = $this->aErrors;
 		}
 
+		$aData['flash_enabled'] = $bFlashEnabled;
 		$aData['site_url'] = App::make('url')->to('/');
 		$aData['submitted_url'] = Input::get('url', null);
 
