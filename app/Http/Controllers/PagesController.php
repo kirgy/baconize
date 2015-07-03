@@ -31,7 +31,11 @@ class PagesController extends Controller
 		if($request->ip()) {
 			$sIP = $request->ip();
 		} else {
-			$sIP = 'ip';
+			if(isset($_SERVER['REMOTE_ADDR'])) {
+				$sIP = $_SERVER['REMOTE_ADDR'];
+			} else {
+				$sIP = null;
+			}
 		}
 
 		$bFlashEnabled = Input::get('flash_enabled', false);
