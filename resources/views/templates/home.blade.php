@@ -13,6 +13,7 @@
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>	
 	<script src="/scripts/zeroclipboard-2.2.0/dist/ZeroClipboard.js"></script>
+	<script src="/scripts/analytics.js"></script>
 
 	<link href="/css/main.css" rel="stylesheet">
 </head>
