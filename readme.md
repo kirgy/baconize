@@ -1,27 +1,20 @@
-## Laravel PHP Framework
+## Baconize.it
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Baconize.it is a URL "shortener" service, which instead of actually shortening URLs, turns them into tastier bacon URLs. Such as this one:
+[http://baconize.it/GypsyBacon-Fatback-IrishBacon-MiddleBacon-UnsmokedBacon-SlabBacon](http://baconize.it/GypsyBacon-Fatback-IrishBacon-MiddleBacon-UnsmokedBacon-SlabBacon)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+## Project files
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+The project is built entirely on Laravel 5, with some simple front-end Twitter Bootstrap styling. You can find information on Laravel itself on the [Laravel documentation](http://laravel.com/docs/contributions) page.
 
-## Official Documentation
+## Efficient URL shortening
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+The URL shortener uses a pre-defined array of "bacon names" which correspond to a hexidecimal number. When a new URL is created, a new unused random hex number is generated and stored. When a "shortened" URL is entered, rather than looking up the the full URL in a database, the words are converted to a short hexidecimal equivilant through itterating over the defined array, then the hexidecimal number is looked up in the database. This method results in significantly faster database lookups, especially as the database itself scales with use.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+This repository is open source, and all contributions and forking is welcome!
 
-## Security Vulnerabilities
+## License
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+This software, and the Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
